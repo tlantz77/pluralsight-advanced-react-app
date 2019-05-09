@@ -7,19 +7,20 @@
   "author": "Tim Lantz",
   "license": "MIT",
   "scripts": {
-    "dev": "NODE_PATH=./lib pm2 start lib/server.js --watch --interpreter babel-node",
+    "dev": "NODE_PATH=./lib pm2 start lib/server.js --watch --interpreter babel-node --name appDev",
     "webpack": "webpack -wd",
-    "test": "jest --watchAll"
+    "test": "jest --watchAll",
+    "verify-tests": "jest --coverage",
+    "build-webpack": "webpack -p",
+    "build-node": "babel lib -d build --copy-files",
+    "start-prod": "NODE_ENV=production NODE_PATH=./build pm2 start build/server.js -i max --name appProd"
   },
   "babel": {
     "presets": [
       "react",
-      [
-        "env",
-        {
-          "targets": {
-            "node": "current"
-          }
+      ["env",
+        { "targets":
+          {"node": "current"}
         }
       ]
     ],
@@ -51,7 +52,7 @@
     "lodash": "^4.17.11",
     "pm2": "^2.5.0",
     "prop-types": "^15.7.2",
-    "react": "^15.6.1",
+    "react": "^15.6.2",
     "react-addons-perf": "^15.4.2",
     "react-dom": "^15.6.1",
     "webpack": "^4.0.0"
